@@ -12,6 +12,16 @@
     border-radius: 30px;
 }
 
+.tweet-element {
+    border-radius: 0px;
+    border-top: 0px;
+    font-size: 14px;
+}
+
+.tweet-element:first-child {
+    border-top: 1px solid #ddd;
+}
+
 .b {
     border: 1px solid red;
 }
