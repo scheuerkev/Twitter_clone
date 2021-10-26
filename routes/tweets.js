@@ -1,9 +1,9 @@
 const router = require('express').Router();
 const Tweet = require('../database/models/tweet')
-const {tweetList, tweetNew, tweetCreate} = require("../controllers/tweets");
+const {tweetList, tweetNew, tweetCreate, tweetDelete} = require("../controllers/tweets");
 
 router.get('/', tweetList);
-router.get('/tweet/new', tweetNew);
+router.get('/new', tweetNew);
 router.post('/', tweetCreate);
-
+router.delete('/:tweetId', tweetDelete)
 module.exports = router;
