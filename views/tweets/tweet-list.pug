@@ -2,5 +2,5 @@ if tweets
     each tweet in tweets
         .card.tweet-element
             .card-body
-                .card-text= tweet.content
+                a.card-text(href="/tweets/edit/" + tweet._id)= tweet.content
                 button.btn.btn-danger.mt-2.float-end(tweetid=tweet._id) Delete

@@ -5,11 +5,11 @@ block content
         .profile-container
             include ../includes/profile
         .flex-fill
-            form.card(method="post" action="/tweets")
+            form.card(method="post" action= tweet._id ? "/tweets/update/" + tweet._id : "/tweets")
                 .card-header Write a tweet
                 .card-body
                     .form-group
-                        textarea.form-control(name="content" placeholder="What is happening ?")
+                        textarea.form-control(name="content" placeholder="What is happening ?")=tweet.content
                     if errors
                         ul.my-2
                             each error in errors
