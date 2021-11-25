@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 exports.clientPromise = mongoose
     .connect(
-        'mongodb+srv://alex:qwe@cluster0-l4izx.gcp.mongodb.net/twitter?retryWrites=true',
+        'mongodb+srv://alex:qwe@cluster0.kqjyd.mongodb.net/twitter?retryWrites=true',
         {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         }
     )
-    .then(console.log('Ok'))
+    .then(() => console.log('Ok'))
     .catch((err) => console.log(err));
 
 
