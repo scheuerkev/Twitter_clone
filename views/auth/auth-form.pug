@@ -2,12 +2,10 @@ extends  ../layout
 
 block content
     .d-flex.flex-row.content.mx-auto.justify-content-center
-        form.card(method="post" action="/users/signup")
-            .card-header Signup
+        form.card(method="post" action="/auth/signin")
+            .card-header Signin
             .card-body
                 .form-group
-                    label Username
-                    input.form-control(type="text" name="username")
                     label Email
                     input.form-control(type="email" name="email")
                     label Password
@@ -17,4 +15,4 @@ block content
                         each error in errors
                             li.text-danger= error
                 .w-100
-                    input.btn.btn-primary.ms-auto.d-block(type="submit" value="Signup")
+                    input.btn.btn-primary.ms-auto.d-block(type="submit" value="Signin")

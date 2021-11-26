@@ -1,7 +1,8 @@
-const {app} = require('../app');
 const passport = require('passport');
-const LocalStrategy = require('passport-local');
-const {findUserPerEmail, findUserPerId} = require('../queries/users');
+const { app } = require('../app');
+const User = require('../database/models/user');
+const { findUserPerEmail } = require('../queries/users');
+const LocalStrategy = require('passport-local').Strategy;
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -12,15 +13,15 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser(async (id, done) => {
     try {
-        const user = await findUserPerId(id);
-        done(null, user);
-    } catch (e) {
+        const user = await User.findById(id).exec();
+        done(null, user)
+    } catch(e) {
         done(e);
     }
 })
 
 passport.use('local', new LocalStrategy({
-    usernameField: 'email',
+    usernameField: 'email'
 }, async (email, password, done) => {
     try {
         const user = await findUserPerEmail(email);
@@ -29,12 +30,12 @@ passport.use('local', new LocalStrategy({
             if (match) {
                 done(null, user);
             } else {
-                done(null, false, {message: 'Wrong password'});
+                done(null, false, { message: 'Wrong password' });
             }
         } else {
-            done(null, false, {message: 'User not found'});
+            done(null, false, { message: 'User not found'});
         }
-    } catch (e) {
+    } catch(e) {
         done(e);
     }
 }))
