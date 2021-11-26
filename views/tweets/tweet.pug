@@ -3,7 +3,6 @@ extends ../layout
 block content
     script(src="javascript/tweets/tweet.js")
     .d-flex.flex-row.content.mx-auto
-        .profile-container
-            include ../includes/profile
+        include ../includes/profile
         .flex-fill.d-flex.flex-column(id="tweet-list-container")
             include tweet-list
