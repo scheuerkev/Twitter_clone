@@ -1,7 +1,8 @@
+script(src="/javascript/profile.js")
 .profile-container.me-3.bg-white.d-flex.flex-column
-    form.d-flex.flex-row.justify-content-center.align-items-center(action="/users/update/image" method="post" enctype="multipart/form-data")
-        input(type="file" name="avatar" class="d-none")
-        img(src="/images/zombiiie.png" class="img-fluid")
+    form.d-flex.flex-row.justify-content-center.align-items-center(action="/users/update/image" method="post" enctype="multipart/form-data" id="form-container")
+        input(type="file" name="avatar" class="d-none" id="input-profile")
+        img(src="/images/zombiiie.png" class="img-fluid" id="img-profile")
     .d-flex.flex-row.justify-content-center.align-items-center.my-3
         p= `${currentUser.username} (${currentUser.local.email})`
     .text-center.d-flex.flex-row.justify-content-center.align-items-center.my-3
