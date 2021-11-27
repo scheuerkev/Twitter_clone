@@ -8,6 +8,7 @@ const userSchema = schema({
         password: { type: String, required: true }
     },
     username: { type: String, required: true, unique: true },
+    avatar: {type: String, default: '/images/zombiiie.png'}
 });
 
 userSchema.statics.hashPassword = (password) => {

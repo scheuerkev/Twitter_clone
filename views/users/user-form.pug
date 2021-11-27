@@ -2,7 +2,7 @@ extends  ../layout
 
 block content
     .d-flex.flex-row.content.mx-auto.justify-content-center
-        form.card(method="post" action="/users/signup")
+        form.card.w-50.mt-5(method="post" action="/users/signup")
             .card-header Signup
             .card-body
                 .form-group
@@ -17,4 +17,4 @@ block content
                         each error in errors
                             li.text-danger= error
                 .w-100
-                    input.btn.btn-primary.ms-auto.d-block(type="submit" value="Signup")
+                    input.btn.btn-primary.ms-auto.d-block.mt-2(type="submit" value="Signup")
