@@ -26,14 +26,18 @@ body {
 }
 
 .tweet-element {
-    border-radius: 0px;
-    border-top: 1px solid #ddd;
+    border-radius: 0;
     font-size: 14px;
-    border: 0px;
+    border: 0;
+    border-top: 1px solid #ddd !important;
 }
 
 .tweet-element:first-child {
-    border-top: 0px;
+    border-top: 0 !important;
+}
+
+.card {
+    border: 0;
 }
 
 .b {

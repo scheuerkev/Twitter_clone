@@ -2,8 +2,7 @@ extends  ../layout
 
 block content
     .d-flex.flex-row.content.mx-auto
-        .profile-container
-            include ../includes/profile
+        include ../includes/profile
         .flex-fill
             form.card(method="post" action= tweet._id ? "/tweets/update/" + tweet._id : "/tweets")
                 .card-header Write a tweet
