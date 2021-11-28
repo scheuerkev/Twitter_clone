@@ -4,12 +4,10 @@ const morgan = require('morgan');
 const errorHandler = require('errorhandler');
 
 const app = express();
+module.exports = app;
+
 require('./database');
 const index = require('./routes');
-
-exports.app = app;
-
-const port = process.env.PORT || 3000;
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
@@ -35,4 +33,3 @@ if(process.env.NODE_ENV === 'development') {
     })
 }
 
-app.listen(port);

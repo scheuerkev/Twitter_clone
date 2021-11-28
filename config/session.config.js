@@ -1,10 +1,12 @@
+const app = require('../app');
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
-const { app } = require('../app');
+const env = require(`../env/${process.env.NODE_ENV}`);
+
 
 app.use(
     session({
-        secret: 'zajilejk9804JKljskc90',
+        secret: env.sessionSecret,
         resave: false,
         saveUninitialized: false,
         cookie: {
@@ -12,7 +14,7 @@ app.use(
             maxAge: 1000 * 60 * 60 * 24 * 14,
         },
         store: MongoStore.create({
-            mongoUrl: 'mongodb+srv://alex:qwe@cluster0.kqjyd.mongodb.net/twitter?retryWrites=true&w=majority',
+            mongoUrl: env.dbUrl,
             ttl: 60 * 60 * 24 * 14,
         }),
     })
