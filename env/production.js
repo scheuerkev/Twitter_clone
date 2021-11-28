@@ -1,8 +1,7 @@
-const path = require('path');
 
 module.exports = {
     dbUrl: 'mongodb+srv://alex:qwe@cluster0.kqjyd.mongodb.net/twitter?retryWrites=true&w=majority',
-    cert: path.join(__dirname, ''),
-    key: path.join(__dirname, ''),
+    cert: '/etc/letsencrypt/live/www.kevinscheuer.tech/fullchain.pem',
+    key: '/etc/letsencrypt/live/www.kevinscheuer.tech/privkey.pem',
     sessionSecret: 'zajilejk9804JKljskc90',
 }
