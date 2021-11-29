@@ -23,6 +23,7 @@
     "dotenv": "^10.0.0",
     "errorhandler": "^1.5.1",
     "express": "^4.17.1",
+    "express-session": "^1.17.2",
     "mongoose": "^6.0.11",
     "mongoose-connect": "^0.0.3",
     "morgan": "^1.10.0",
