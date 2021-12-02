@@ -8,7 +8,8 @@ const userSchema = schema({
         password: { type: String, required: true }
     },
     username: { type: String, required: true, unique: true },
-    avatar: {type: String, default: '/images/zombiiie.png'}
+    avatar: {type: String, default: '/images/zombiiie.png'},
+    following: {type: [schema.Types.ObjectId], ref:'user'},
 });
 
 userSchema.statics.hashPassword = (password) => {

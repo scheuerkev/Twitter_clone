@@ -1,17 +1,23 @@
+script(src="/javascript/search-bar.js")
 navbar(class="navbar navbar-expand-lg navbar-light bg-white")
     a(class="navbar-brand ms-3" href="/")
         img(width="30" height="30" src="/images/zombiiie.png")
     button(class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation")
         span(class="navbar-toggler-icon")
     div(class="collapse navbar-collapse")
-        ul(class="navbar-nav ms-auto")
             if isAuthenticated
-                li(class="nav-item active")
-                    a(class="btn btn-primary btn-tweet me-3" href="/tweets/new") Tweet
-                li(class="nav-item")
-                    a(class="nav-link" href="/auth/signout") Log Out
+                form
+                    input(type="text" class="me-2 form-control" placeholder="search" id="search-input")
+                    div(id="search-menu-container")
+
+                ul(class="navbar-nav ms-auto")
+                    li(class="nav-item active")
+                        a(class="btn btn-primary btn-tweet me-3" href="/tweets/new") Tweet
+                    li(class="nav-item")
+                        a(class="nav-link" href="/auth/signout") Log Out
             else
-                li(class="nav-item")
-                    a(class="nav-link" href="/auth/signin/form") Signin
-                li(class="nav-item")
-                    a(class="nav-link" href="/users/signup/form") Register
+                ul(class="navbar-nav ms-auto")
+                    li(class="nav-item")
+                        a(class="nav-link" href="/auth/signin/form") Signin
+                    li(class="nav-item")
+                        a(class="nav-link" href="/users/signup/form") Register
