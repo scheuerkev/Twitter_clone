@@ -10,6 +10,7 @@ const {getTweetsFromAuthorId} = require('../queries/tweets');
 
 const multer = require('multer');
 const path = require('path');
+const emailFactory = require('../emails/email');
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -48,6 +49,13 @@ exports.signup = async (req, res, next) => {
     const body = req.body;
     try {
         const user = await createUser(body);
+        emailFactory.sendEmailVerification({
+            to: user.local.email,
+            host: req.headers.host,
+            username: user.username,
+            userId: user._id,
+            token: user.local.emailToken
+        });
         res.redirect('/');
     } catch (e) {
         res.render('/users/user-form', {
@@ -98,6 +106,22 @@ exports.unfollowUser = async (req, res, next) => {
         const userId = req.params.userId;
         const [, user] = await Promise.all([removeUserIdToCurrentUserFollowing(req.user, userId), findUserPerId(userId)]);
         res.redirect(`/users/${user.username}`);
+    } catch (e) {
+        next(e);
+    }
+}
+
+exports.emailLinkVerification = async (req, res, next) => {
+    try {
+        const {userId, token} = req.params;
+        const user = await findUserPerId(userId);
+        if(user && token && token === user.local.emailToken) {
+            user.local.emailVerified = true;
+            await user.save();
+            res.redirect('/');
+        } else {
+            res.status(400).json('Problem during email verification');
+        }
     } catch (e) {
         next(e);
     }

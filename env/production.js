@@ -6,4 +6,5 @@ module.exports = {
     sessionSecret: 'zajilejk9804JKljskc90',
     portHTTP: 80,
     portHTTPS: 443,
+    sparkPostKey : 'd6366059a0b2071f22c3a261efd5a584ad31c5fe'
 }

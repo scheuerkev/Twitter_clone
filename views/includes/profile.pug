@@ -11,7 +11,7 @@ script(src="/javascript/profile.js")
                 a(class="btn btn-primary btn-unfollow" href="/users/unfollow/" + user._id) Unfollow
             else
                 a(class="btn btn-outline-primary btn-follow" href="/users/follow/" + user._id) Follow
-    .d-flex.flex-row.justify-content-center.align-items-center.my-3
+    .d-flex.flex-row.justify-content-center.align-items-center.my-3.text-center
         .flex-fill
             p
                 strong Tweet
@@ -22,3 +22,11 @@ script(src="/javascript/profile.js")
                 strong Following
                 br
                 span(class="text-primary")= user.following.length
+        .flex-fill
+            p
+                strong Email
+                br
+                if user.local.emailVerified
+                    span(class="text-primary") Verified
+                else
+                    span(class="text-warning") Not verified

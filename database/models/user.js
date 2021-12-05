@@ -5,6 +5,8 @@ const schema = mongoose.Schema;
 const userSchema = schema({
     local: {
         email: { type: String, required: true, unique: true },
+        emailVerify: {type: Boolean, default: false},
+        emailToken: {type: String},
         password: { type: String, required: true }
     },
     username: { type: String, required: true, unique: true },
