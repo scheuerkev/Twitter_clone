@@ -4,13 +4,16 @@ const {
     searchUsersPerUsername,
     findUserPerId,
     addUserIdToCurrentUserFollowing,
-    removeUserIdToCurrentUserFollowing,
+    removeUserIdToCurrentUserFollowing, findUserPerEmail,
 } = require('../queries/users');
 const {getTweetsFromAuthorId} = require('../queries/tweets');
 
 const multer = require('multer');
 const path = require('path');
 const emailFactory = require('../emails/email');
+const moment = require('moment');
+const { v4: uuid } = require('uuid');
+
 
 const upload = multer({
     storage: multer.diskStorage({
@@ -21,7 +24,7 @@ const upload = multer({
             cb(null, `${Date.now()}-${file.originalname}`);
         }
     })
-})
+});
 
 exports.userProfile = async (req, res, next) => {
     try {
@@ -39,11 +42,11 @@ exports.userProfile = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 exports.signupForm = (req, res, next) => {
     res.render('users/user-form', {errors: null, isAuthenticated: req.isAuthenticated(), currentUser: req.user});
-}
+};
 
 exports.signup = async (req, res, next) => {
     const body = req.body;
@@ -64,7 +67,7 @@ exports.signup = async (req, res, next) => {
             currentUser: req.user
         })
     }
-}
+};
 
 exports.updateImage = [
     upload.single('avatar'),
@@ -78,7 +81,7 @@ exports.updateImage = [
             next(e);
         }
     }
-]
+];
 
 exports.userList = async (req, res, next) => {
     try {
@@ -88,7 +91,7 @@ exports.userList = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 exports.followUser = async (req, res, next) => {
     try {
@@ -98,7 +101,7 @@ exports.followUser = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 
 exports.unfollowUser = async (req, res, next) => {
@@ -109,7 +112,7 @@ exports.unfollowUser = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
 
 exports.emailLinkVerification = async (req, res, next) => {
     try {
@@ -125,4 +128,42 @@ exports.emailLinkVerification = async (req, res, next) => {
     } catch (e) {
         next(e);
     }
-}
+};
+
+exports.initResetPassword = async (req, res, next) => {
+    try {
+        const {email} = req.body;
+        if(email) {
+            const user = await findUserPerEmail(email);
+            if(user) {
+                user.local.passwordToken = uuid();
+                user.local.passwordTokenExpiration = moment().add(2, "hours").toDate();
+                await user.save();
+                emailFactory.sendResetPasswordLink({
+                    to: email,
+                    host: req.headers.host,
+                    userId: user._id,
+                    token: user.local.passwordToken
+                });
+                res.status(200).end();
+            }
+        }
+        res.status(400).json('Unknown user');
+    } catch (e) {
+        next(e);
+    }
+};
+
+exports.resetPasswordForm = async (req, res, next) => {
+  try {
+      const {userId, token} = req.params;
+      const user = await findUserPerId(userId);
+      if(user && user.local.passwordToken === token) {
+          res.render('auth/auth-');
+      } else {
+          res.status(400).json('User doesnt exists');
+      }
+  }  catch (e) {
+      next(e);
+  }
+};

@@ -7,7 +7,9 @@ const {
     userList,
     followUser,
     unfollowUser,
-    emailLinkVerification
+    emailLinkVerification,
+    initResetPassword,
+    resetPasswordForm
 } = require('../controllers/users.controllers');
 
 const {ensureAuthenticated} = require("../config/guards.config");
@@ -19,6 +21,8 @@ router.get('/:username', userProfile);
 router.get('/signup/form', signupForm);
 router.post('/signup', signup);
 router.post('/update/image', ensureAuthenticated, updateImage);
-router.get('/email-verification/:userId/:token', emailLinkVerification)
+router.get('/email-verification/:userId/:token', emailLinkVerification);
+router.post('/forgot-password', initResetPassword);
+router.get('reset-password/:userId/:token', resetPasswordForm)
 
 module.exports = router;

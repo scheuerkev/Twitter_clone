@@ -7,7 +7,9 @@ const userSchema = schema({
         email: { type: String, required: true, unique: true },
         emailVerify: {type: Boolean, default: false},
         emailToken: {type: String},
-        password: { type: String, required: true }
+        password: { type: String, required: true },
+        passwordToken: {type: String},
+        passwordTokenExpiration: {type: Date},
     },
     username: { type: String, required: true, unique: true },
     avatar: {type: String, default: '/images/zombiiie.png'},

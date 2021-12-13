@@ -96,3 +96,8 @@ body {
     font-weight: bold;
 }
 
+.text-hint{
+    color: #718093;
+    font-size: 12px;
+    cursor: pointer;
+}

@@ -7,6 +7,6 @@ if tweets
                     span(class="flex-fill")= tweet.author.username
                     if editable && tweet.author._id.toString() === currentUser._id.toString()
                         .d-flex.flex-row.justify-content-center
-                            a(class="fas fa-edit pe-2 text-success" href="/tweets/edit/" + tweet._id)
+                            a(class="fas fa-edit pe-2 text-success" href="/tweets/edit/"+ tweet._id)
                             i(class="fas fa-minus-circle text-danger pointer-cursor" tweetid=tweet._id)
                 div= tweet.content
