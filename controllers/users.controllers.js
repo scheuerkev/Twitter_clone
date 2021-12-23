@@ -12,7 +12,8 @@ const multer = require('multer');
 const path = require('path');
 const emailFactory = require('../emails/email');
 const moment = require('moment');
-const { v4: uuid } = require('uuid');
+const {v4: uuid} = require('uuid');
+const User = require('../database/models/user')
 
 
 const upload = multer({
@@ -118,7 +119,7 @@ exports.emailLinkVerification = async (req, res, next) => {
     try {
         const {userId, token} = req.params;
         const user = await findUserPerId(userId);
-        if(user && token && token === user.local.emailToken) {
+        if (user && token && token === user.local.emailToken) {
             user.local.emailVerify = true;
             await user.save();
             res.redirect('/');
@@ -133,9 +134,9 @@ exports.emailLinkVerification = async (req, res, next) => {
 exports.initResetPassword = async (req, res, next) => {
     try {
         const {email} = req.body;
-        if(email) {
+        if (email) {
             const user = await findUserPerEmail(email);
-            if(user) {
+            if (user) {
                 user.local.passwordToken = uuid();
                 user.local.passwordTokenExpiration = moment().add(2, "hours").toDate();
                 await user.save();
@@ -155,19 +156,43 @@ exports.initResetPassword = async (req, res, next) => {
 };
 
 exports.resetPasswordForm = async (req, res, next) => {
-  try {
-      const {userId, token} = req.params;
-      const user = await findUserPerId(userId);
-      if(user && user.local.passwordToken === token) {
-          return res.render('auth/auth-reset-password', {
-              url:`https://${req.headers.host}/users/reset-password/${user._id}/${user.local.passwordToken}`,
-              errors: null,
-              isAuthenticated: false,
-          });
-      } else {
-          return res.status(400).json('User doesnt exists');
-      }
-  }  catch (e) {
-      next(e);
-  }
+    try {
+        const {userId, token} = req.params;
+        const user = await findUserPerId(userId);
+        if (user && user.local.passwordToken === token) {
+            return res.render('auth/auth-reset-password', {
+                url: `https://${req.headers.host}/users/reset-password/${user._id}/${user.local.passwordToken}`,
+                errors: null,
+                isAuthenticated: false,
+            });
+        } else {
+            return res.status(400).json('User doesnt exists');
+        }
+    } catch (e) {
+        next(e);
+    }
+};
+
+exports.resetPassword = async (req, res, next) => {
+    try {
+        const {userId, token} = req.params
+        const {password} = req.body;
+        const user = await findUserPerId(userId);
+        if (user && password && user.local.passwordToken === token && moment() < moment(user.local.passwordTokenExpiration)) {
+            user.local.password = await User.hashPassword(password);
+            user.local.passwordToken = null;
+            user.local.passwordTokenExpiration = null;
+            await user.save();
+            return res.redirect('/');
+        } else {
+            return res.render('auth/auth-reset-password', {
+                url: `https://${req.headers.host}/users/reset-password/${user._id}/${user.local.passwordToken}`,
+                errors: ['An error occured'],
+                isAuthenticated: false,
+            })
+        }
+    } catch (e) {
+
+    }
+
 };
