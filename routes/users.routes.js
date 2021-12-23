@@ -23,6 +23,6 @@ router.post('/signup', signup);
 router.post('/update/image', ensureAuthenticated, updateImage);
 router.get('/email-verification/:userId/:token', emailLinkVerification);
 router.post('/forgot-password', initResetPassword);
-router.get('reset-password/:userId/:token', resetPasswordForm)
+router.get('/reset-password/:userId/:token', resetPasswordForm)
 
 module.exports = router;

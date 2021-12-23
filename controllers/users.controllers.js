@@ -119,7 +119,7 @@ exports.emailLinkVerification = async (req, res, next) => {
         const {userId, token} = req.params;
         const user = await findUserPerId(userId);
         if(user && token && token === user.local.emailToken) {
-            user.local.emailVerified = true;
+            user.local.emailVerify = true;
             await user.save();
             res.redirect('/');
         } else {
@@ -159,9 +159,13 @@ exports.resetPasswordForm = async (req, res, next) => {
       const {userId, token} = req.params;
       const user = await findUserPerId(userId);
       if(user && user.local.passwordToken === token) {
-          res.render('auth/auth-');
+          return res.render('auth/auth-reset-password', {
+              url:`https://${req.headers.host}/users/reset-password/${user._id}/${user.local.passwordToken}`,
+              errors: null,
+              isAuthenticated: false,
+          });
       } else {
-          res.status(400).json('User doesnt exists');
+          return res.status(400).json('User doesnt exists');
       }
   }  catch (e) {
       next(e);
